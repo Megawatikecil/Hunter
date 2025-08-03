@@ -166,7 +166,7 @@ end
 
 oriHS = nil -- untuk menyimpan nilai asli
 
-function skillss()
+function skills()
     if HS == OFF then
         id = 10001
         oriHS = {} -- reset penyimpanan nilai asli
