@@ -197,7 +197,7 @@ local original = gg.getValues({{address = addr, flags = 16}})
                     -- Set nilai cheat
                     xx[c] = {}
                     xx[c].address = addr
-                    xx[c].value = 200000000
+                    xx[c].value = 50000
                     xx[c].flags = 16
                     c=c+1
                     oo=oo+4
