@@ -63,7 +63,7 @@ mc=gg.multiChoice({
 	HP.."Increase HP",
 	AM.."Increase Ammo",
 	AC.."Increase Crit Rate",
-	--HS.."Hero Skills (All Damage)", 
+	HS.."Increase Damage[Stat Perks]", 
 	
 	
 	"[ EXIT ]"},
@@ -74,7 +74,7 @@ mc=gg.multiChoice({
 	if mc[2] then health() end
 	if mc[3] then ammo() end
 	if mc[4] then critical() end
-	--if mc[5] then skills() end
+	if mc[5] then skills() end
 	
 	
 		
@@ -83,13 +83,13 @@ xhaX={
 	HP.."Increase HP",
 	AM.."Increase Ammo",
 	AC.."Increase Crit Rate",
-	--HS.."Hero Skills (All Damage)", 
+	HS.."Increase Damage[Stat Perks]", 
 	
 	}
 xhaX=table.concat(xhaX, "\n")
 xhaX=tostring(xhaX) 
 
-	if mc[5] then exit() return end 
+	if mc[6] then exit() return end 
 
 gg.toast("[√] Complete") 
 gg.alert(GLabel.."\n\n"..xhaX,"OK",nil,xTAGx)  
@@ -164,36 +164,67 @@ end
 
 --███████████████████████
 
-function skillss()
-if HS==OFF then 
-id = 10001 
-    for total=1,7 do 
-    xtoast=tonumber((7-total)+1)
-    clear() gg.toast("Please Wait [ "..xtoast.." ]") 
-    x=429496729600 t=32 search()
-    o=12 t=4 offset() x=id refine()
-    o=36 t=16 offset() 
-    check() if E==0 then error() return end 
-    sk=gg.getResults(1) 
-    o=0 xx=nil xx={} c=1
-        for i = 1,100 do
-        oo=0
-            for a=1,4 do 
-            xx[c]={}
-            xx[c].address=sk[1].address+o+oo
-            xx[c].value=10000
-            xx[c].flags=16
-            c=c+1 oo=oo+4
-            end
-        o=o+0x38
-        end
-    gg.setValues(xx) 
-    id = id+10000
-    end 
+-- Nilai awal
+oriHS = nil -- untuk menyimpan nilai asli
 
-HS=ON 
-end 
-end 
+function skills()
+    if HS == OFF then
+        id = 10001
+        oriHS = {} -- reset penyimpanan nilai asli
+        
+        for total = 1,8 do
+            xtoast = (8 - total) + 1
+            clear()
+            gg.toast("Please Wait [ " .. xtoast .. " ]")
+            
+            x=429496729600 t=32 search()         
+            o=12 t=4 offset()
+            x=id refine()
+            o=36 t=16 offset()
+            check() if E == 0 then error() return end
+            sk = gg.getResults(1)
+            o=0
+            xx = {}
+            c=1
+            
+            for i = 1,100 do
+                oo=0
+                for a=1,4 do
+local addr = sk[1].address + o + oo
+                    -- Simpan nilai asli sebelum diubah
+local original = gg.getValues({{address = addr, flags = 16}})
+                    table.insert(oriHS, original[1])
+                    
+                    -- Set nilai cheat
+                    xx[c] = {}
+                    xx[c].address = addr
+                    xx[c].value = 200000000
+                    xx[c].flags = 16
+                    c=c+1
+                    oo=oo+4
+                end
+                o=o+0x38
+            end
+            
+            gg.setValues(xx)
+            id=id+10000
+        end
+        
+        HS = ON
+        clear()
+        gg.toast("Hero Skills ✅ ON")
+        
+    else
+        if oriHS ~= nil and #oriHS > 0 then
+            gg.setValues(oriHS) -- kembalikan nilai semula
+            gg.toast("Hero Skills ❌ OFF (Restored)")
+        else
+            gg.toast("Hero Skills ❌ OFF (No backup found)")
+        end
+        HS = OFF
+        clear()
+    end
+end
 
 --███████████████████████
 
