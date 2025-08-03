@@ -164,54 +164,69 @@ end
 
 --███████████████████████
 
--- Nilai awal
 oriHS = nil -- untuk menyimpan nilai asli
 
-function skills()
+function skillss()
     if HS == OFF then
         id = 10001
         oriHS = {} -- reset penyimpanan nilai asli
         
-        for total = 1,8 do
+        for total = 1, 8 do
             xtoast = (8 - total) + 1
             clear()
             gg.toast("Please Wait [ " .. xtoast .. " ]")
             
-            x=429496729600 t=32 search()         
-            o=12 t=4 offset()
-            x=id refine()
-            o=36 t=16 offset()
-            check() if E == 0 then error() return end
-            sk = gg.getResults(1)
-            o=0
-            xx = {}
-            c=1
+            x = 429496729600
+            t = 32
+            search()
             
-            for i = 1,100 do
-                oo=0
-                for a=1,4 do
-local addr = sk[1].address + o + oo
+            o = 12
+            t = 4
+            offset()
+            
+            x = id
+            refine()
+            
+            o = 36
+            t = 16
+            offset()
+            
+            check()
+            if E == 0 then
+                error()
+                return
+            end
+            
+            sk = gg.getResults(1)
+            o = 0
+            xx = {}
+            c = 1
+            
+            for i = 1, 100 do
+                oo = 0
+                for a = 1, 4 do
+                    local addr = sk[1].address + o + oo
+                    
                     -- Simpan nilai asli sebelum diubah
-local original = gg.getValues({{address = addr, flags = 16}})
+                    local original = gg.getValues({{address = addr, flags = 16}})
                     table.insert(oriHS, original[1])
                     
                     -- Set nilai cheat
                     xx[c] = {}
                     xx[c].address = addr
-                    xx[c].value = 200000000
+                    xx[c].value = 10000
                     xx[c].flags = 16
-                    c=c+1
-                    oo=oo+4
+                    c = c + 1
+                    oo = oo + 4
                 end
-                o=o+0x38
+                o = o + 0x38
             end
             
             gg.setValues(xx)
-            id=id+10000
+            id = id + 10000
         end
         
         HS = ON
-        clear()
         gg.toast("Hero Skills ✅ ON")
         
     else
@@ -222,7 +237,6 @@ local original = gg.getValues({{address = addr, flags = 16}})
             gg.toast("Hero Skills ❌ OFF (No backup found)")
         end
         HS = OFF
-        clear()
     end
 end
 
